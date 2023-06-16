@@ -1,0 +1,127 @@
+---
+title: "Assignment-3"
+author: "Ruthreshwaran"
+date: "2023-04-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(haven)
+```
+
+
+```{r}
+datatibble1 <- read_sav("raw/Chap5data.sav")
+datatibble1
+```
+```{r}
+datatibble1$qa8d
+```
+
+
+```{r}
+freq_table <- table(datatibble1$qa8d)
+freq_table
+
+prop.table(freq_table)
+```
+
+```{r}
+summary(datatibble1$qa8d)
+library(psych)
+describe(datatibble1$qa8d)
+```
+
+```{r}
+datatibble2 <- datatibble1 %>% filter(!is.na(qa8d))
+freq_table1 <- table(datatibble2$qa8d)
+freq_table1
+
+
+
+df <- as.data.frame(datatibble2)
+df$qa8d
+```
+
+```{r}
+df$jobsat <- rowMeans(df[,c("qa8a","qa8b","qa8c","qa8d","qa8e","qa8f","qa8g","qa8h")])
+
+df$jobsat
+
+df1 <- df[!is.na(df$jobsat),]
+
+df1$jobsat
+```
+
+
+```{r}
+describe(df$jobsat)
+summary(df$jobsat)
+
+hist(df$jobsat,xlim = c(0,6),prob = TRUE)
+
+hist(df1$jobsat,xlim = c(0,6))
+```
+
+```{r}
+library(rcompanion)
+plotNormalHistogram(df1$jobsat,xlim = c(0,6))
+```
+
+```{r}
+
+t.test(df$jobsat ~ df$tradeu)
+
+
+t.test(df1$jobsat ~ df1$tradeu)
+
+library(lsr)
+cohensD(df1$jobsat ~ df1$tradeu)
+
+summary(df$jobsat)
+describe(df$jobsat)
+
+summary(df1$jobsat)
+describe(df1$jobsat)
+```
+
+
+```{r}
+summary(df1)
+describe(df1)
+```
+
+```{r}
+datatibble3 <- read_sav("Raw/Chap5paired.sav")
+datatibble3
+
+describe(datatibble3)
+summary(datatibble3)
+
+df2 <- as.data.frame(datatibble3)
+t.test(df2$perform1, df2$perform2, paired = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
